@@ -122,9 +122,9 @@
                 <div class="controls">
                     <select id="soundSelect" style="margin-top: -35px;">
                         <option value="rain">Rainy Day</option>
-                        <option value="typewriter">Typewriter</option>
-                        <option value="river">Morning View</option>
-                        <option value="beach">Sunset in a Beach</option>
+                        <option value="typewriter">Retro Rhythms</option>
+                        <option value="river">Sunrise View</option>
+                        <option value="beach">Beach Waves</option>
                     </select>
                     <button id="startButton" style="margin-top: -35px;">Start</button>
                     <button id="stopButton" style="margin-top: -35px;">Stop</button>
@@ -143,22 +143,28 @@
     <audio id="typewriterAudio" src="https://cdn.freesound.org/previews/170/170548_3125076-lq.mp3" loop></audio>
     <audio id="riverAudio" src="https://cdn.freesound.org/previews/165/165279_28867-lq.mp3" loop></audio>
     <audio id="beachAudio" src="https://cdn.freesound.org/previews/439/439678_211652-lq.mp3" loop></audio>
-
     <script>
         const startButton = document.getElementById('startButton');
         const stopButton = document.getElementById('stopButton');
         const soundSelect = document.getElementById('soundSelect');
         const volumeControl = document.getElementById('volumeControl');
+        const video = document.querySelector("video");
         const rainAudio = document.getElementById('rainAudio');
         const typewriterAudio = document.getElementById('typewriterAudio');
         const riverAudio = document.getElementById('riverAudio');
         const beachAudio = document.getElementById('beachAudio'); 
-
         let currentAudio = null;
-
+        const soundBackgrounds = {
+            rain: "https://videos.pexels.com/video-files/3813820/3813820-hd_1920_1080_24fps.mp4",
+            typewriter: "https://videos.pexels.com/video-files/19935348/19935348-hd_1920_1080_25fps.mp4",
+            river: "https://videos.pexels.com/video-files/854638/854638-hd_1920_1080_30fps.mp4",
+            beach: "https://videos.pexels.com/video-files/1409899/1409899-uhd_2560_1440_25fps.mp4"
+        };
         startButton.addEventListener('click', () => {
             if (currentAudio) currentAudio.pause(); 
             const selectedSound = soundSelect.value; 
+            video.src = soundBackgrounds[selectedSound];
+            video.play();
             currentAudio = selectedSound === 'rain' ? rainAudio :
                            selectedSound === 'typewriter' ? typewriterAudio :
                            selectedSound === 'river' ? riverAudio :
@@ -167,16 +173,13 @@
             currentAudio.volume = volumeControl.value; 
             currentAudio.play(); 
         });
-
         stopButton.addEventListener('click', () => {
             if (currentAudio) currentAudio.pause(); 
             currentAudio = null; 
         });
-
         volumeControl.addEventListener('input', () => {
             if (currentAudio) currentAudio.volume = volumeControl.value; 
         });
-
         document.addEventListener('mousemove', (event) => {
             const emoji = document.createElement('div');
             emoji.className = 'music-emoji';
